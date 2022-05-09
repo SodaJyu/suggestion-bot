@@ -1,5 +1,5 @@
 require("dotenv").config({
-    path: "../.env.local",
+    path: "./.env.local",
   });
   const pg = require("pg"); 
   
@@ -16,16 +16,5 @@ require("dotenv").config({
         directory: './db/migrations',
       },
       seeds: { directory: './db/seeds' },
-    },
-    production: {
-      client: 'pg',
-      connection:  process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorised: false
-      },
-      migrations: {
-        directory: './db/migrations',
-      },
-      seeds: { directory: './db/seeds' }
     },
   };

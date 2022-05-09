@@ -4,7 +4,7 @@ const port = process.env.PORT || 8080;
 require("dotenv").config({
     path: "../.env.local",
   });
-const config = require('./knexfile');
+const config = require('../knexfile');
 const app = express();
 const axios = require("axios");
 
