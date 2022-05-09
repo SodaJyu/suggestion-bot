@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './App.css';
 import * as tf from '@tensorflow/tfjs';
 
@@ -22,6 +22,8 @@ const [padText, setPad] = useState("")
 const [inputText, setInput] = useState("")
 const [modelLoaded, setModelLoaded] = useState(false)
 const [metadataLoaded, setMetadataLoaded] = useState(false)
+const [query, setQuery] = useState();
+const userInput = useRef();
 
 
 
@@ -82,9 +84,6 @@ const padSequences = (sequences, maxLen, padding = 'pre', truncating = 'pre', va
     }
   }, []);
 
-
-
-console.log(metadata);
 const getSentimentScore = async (text) => {
   const inputText = text.trim().toLowerCase().replace(/(\.|\,|\!)/g, '').split(' ');
   setTrim(inputText)
@@ -110,11 +109,20 @@ const getSentimentScore = async (text) => {
   return score;
 }
 
-useEffect(() => {
+const sentimentScore = () => {
   if (metadataLoaded === true && modelLoaded === true){
-  getSentimentScore();
-  }
-}, []);
+    getSentimentScore(query);
+    }
+}
+
+
+function updateInput(e){
+  e.preventDefault()
+  setQuery(userInput.current.value)
+}
+useEffect(() => {
+  sentimentScore()
+}, [query]);
 
 
   return (
@@ -125,9 +133,10 @@ useEffect(() => {
       <main>
         <div className='user-input'>
           <form>
-            <input type='text'></input>
+            <input type='text' name='statement' ref={userInput}></input>
+            <button onClick={updateInput}>Submit</button>
           </form>
-        <button>submit</button>
+        
         </div>
        
       </main>
