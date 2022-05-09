@@ -5,7 +5,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable("positive_suggestions", (table) => {
       table.increments("id").primary();
-      table.increments("popularity");
+      table.integer("popularity");
       table.string("suggestion", 128).notNullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
   })

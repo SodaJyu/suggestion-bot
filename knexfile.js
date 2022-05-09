@@ -13,8 +13,8 @@ require("dotenv").config({
         password: process.env.DB_PASSWORD,
       },
       migrations: {
-        directory: './db/migrations',
+        directory: './backend/db/migrations',
       },
-      seeds: { directory: './db/seeds' },
+      seeds: { directory: './backend/db/seeds' },
     },
   };
