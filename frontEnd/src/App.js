@@ -2,28 +2,26 @@ import React, {useState, useEffect, useRef} from 'react';
 import './App.css';
 import * as tf from '@tensorflow/tfjs';
 import padSequences from './helper/padSequences';
+import axios from 'axios';
 
 function App() {
 
-  const url = {
-    model: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/model.json',
-    metadata: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/metadata.json'
-  };
-
-const OOV_INDEX = 2;
 
 const [metadata, setMetadata] = useState();
 const [model, setModel] = useState();
-const [testText, setText] = useState("");
 const [testScore, setScore] = useState("");
-const [trimedText, setTrim] = useState("")
-const [seqText, setSeq] = useState("")
-const [padText, setPad] = useState("")
-const [inputText, setInput] = useState("")
+const [trimmedText, setTrim] = useState("")
 const [modelLoaded, setModelLoaded] = useState(false)
 const [metadataLoaded, setMetadataLoaded] = useState(false)
 const [query, setQuery] = useState();
+const [suggestion, setSuggestion] = useState();
 const userInput = useRef();
+const url = {
+  model: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/model.json',
+  metadata: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/metadata.json'
+};
+
+const OOV_INDEX = 2;
 
 
 
@@ -67,12 +65,8 @@ const getSentimentScore = async (text) => {
     }
     return wordIndex;
   });
-  setSeq(sequence)
   const paddedSequence = padSequences([sequence], metadata.max_len);
-  setPad(paddedSequence)
-
   const input = tf.tensor2d(paddedSequence, [1, metadata.max_len]);
-  setInput(input)
   const predictOut = model.predict(input);
   const score = predictOut.dataSync()[0];
   console.log(score);
@@ -88,13 +82,50 @@ const sentimentScore = () => {
     }
 }
 
+// test user uploads using AI to decide whether they are positive or negative.
+
+const fetchSuggestion = async () => {
+  if (testScore >= 0.65){
+    const suggestion = await axios
+    .get('http://localhost/positive')
+    .catch((error) => {
+      console.log(error.response)
+    });
+    setSuggestion(suggestion)
+  } else {
+    const suggestion = await axios
+    .get('http://localhost/negative')
+    .catch((error) => {
+      console.log(error.response)
+    });
+    setSuggestion(suggestion)
+  } 
+};
+
+const postData = async (suggestion) => {
+  if (getSentimentScore(suggestion) >= 0.65){
+    await axios
+    .post('http://localhost/8080/positive', suggestion)
+    .catch((error) => {
+      console.log(error.response);
+    })
+  } else {
+    await axios
+  .post('http://localhost/8080/negative', suggestion)
+  .catch((error) => {
+    console.log(error.response);
+  })
+  }
+};
+
 
 function updateInput(e){
   e.preventDefault()
   setQuery(userInput.current.value)
 }
 useEffect(() => {
-  sentimentScore()
+  sentimentScore();
+  fetchSuggestion();
 }, [query]);
 
 
@@ -109,9 +140,7 @@ useEffect(() => {
             <input type='text' name='statement' ref={userInput}></input>
             <button onClick={updateInput}>Submit</button>
           </form>
-        
         </div>
-       
       </main>
     </div>
   );
