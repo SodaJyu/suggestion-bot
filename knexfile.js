@@ -7,7 +7,6 @@ require("dotenv").config({
     development: {
       client: 'pg',
       connection: {
-        host: process.env.HOST,
         database: process.env.DB_NAME,
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
@@ -24,8 +23,8 @@ require("dotenv").config({
         rejectUnauthorised: false
       },
       migrations: {
-        directory: './db/migrations',
+        directory: './backend/db/migrations',
       },
-      seeds: { directory: './db/seeds' }
+      seeds: { directory: './backend/db/seeds' }
     },
   };
