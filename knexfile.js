@@ -23,8 +23,8 @@ require("dotenv").config({
         rejectUnauthorised: false
       },
       migrations: {
-        directory: './db/migrations',
+        directory: './backend/db/migrations',
       },
-      seeds: { directory: '.db/seeds' }
+      seeds: { directory: './backend/db/seeds' }
     },
   };

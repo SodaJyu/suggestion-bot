@@ -10,7 +10,7 @@ const db = knex(config[environment]);
 
 
 app.use(express.json())
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 app.get("/positive", async(req, res) => {
   await db.select('*')
