@@ -3,6 +3,8 @@ import './App.css';
 import * as tf from '@tensorflow/tfjs';
 import padSequences from './helper/padSequences';
 import axios from 'axios';
+import Suggestion from './components/Suggestion';
+import Input from './components/Input';
 
 function App() {
 
@@ -14,7 +16,7 @@ const [trimmedText, setTrim] = useState("")
 const [modelLoaded, setModelLoaded] = useState(false)
 const [metadataLoaded, setMetadataLoaded] = useState(false)
 const [query, setQuery] = useState();
-const [suggestion, setSuggestion] = useState();
+const [suggestions, setSuggestions] = useState();
 const userInput = useRef();
 const url = {
   model: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/model.json',
@@ -87,31 +89,31 @@ const sentimentScore = () => {
 const fetchSuggestion = async () => {
   if (testScore >= 0.65){
     const suggestion = await axios
-    .get('http://localhost/positive')
+    .get('/positive')
     .catch((error) => {
       console.log(error.response)
     });
-    setSuggestion(suggestion)
+    setSuggestions(suggestion)
   } else {
     const suggestion = await axios
-    .get('http://localhost/negative')
+    .get('/negative')
     .catch((error) => {
       console.log(error.response)
     });
-    setSuggestion(suggestion)
+    setSuggestions(suggestion)
   } 
 };
 
 const postData = async (suggestion) => {
   if (getSentimentScore(suggestion) >= 0.65){
     await axios
-    .post('http://localhost/8080/positive', suggestion)
+    .post('/positive', suggestion)
     .catch((error) => {
       console.log(error.response);
     })
   } else {
     await axios
-  .post('http://localhost/8080/negative', suggestion)
+  .post('/negative', suggestion)
   .catch((error) => {
     console.log(error.response);
   })
@@ -119,10 +121,11 @@ const postData = async (suggestion) => {
 };
 
 
-function updateInput(e){
-  e.preventDefault()
-  setQuery(userInput.current.value)
-}
+// function updateInput(e){
+//   e.preventDefault()
+//   console.log(userInput.value)
+//   setQuery(userInput.value)
+// }
 useEffect(() => {
   sentimentScore();
   fetchSuggestion();
@@ -135,12 +138,8 @@ useEffect(() => {
        Suggestion Bot
       </header>
       <main>
-        <div className='user-input'>
-          <form>
-            <input type='text' name='statement' ref={userInput}></input>
-            <button onClick={updateInput}>Submit</button>
-          </form>
-        </div>
+      {/* {suggestions ? <Suggestion /> : '' } */}
+      <Input setQuery={setQuery} />
       </main>
     </div>
   );
