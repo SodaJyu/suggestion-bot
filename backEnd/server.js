@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 app.get("/positive", async(req, res) => {
   await db.select('*')
-  .from("negative_suggestions")
+  .from("positive_suggestions")
   .then((result) => {
     res.status(200).send(result);
   })

@@ -5,6 +5,7 @@ import padSequences from './helper/padSequences';
 import axios from 'axios';
 import Suggestion from './components/Suggestion';
 import Input from './components/Input';
+import Add from './components/Add';
 
 function App() {
 
@@ -17,7 +18,7 @@ const [modelLoaded, setModelLoaded] = useState(false)
 const [metadataLoaded, setMetadataLoaded] = useState(false)
 const [query, setQuery] = useState();
 const [suggestionData, setSuggestionData] = useState();
-const userInput = useRef();
+const [newSuggestion, setNewSuggestion] = useState();
 const url = {
   model: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/model.json',
   metadata: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/metadata.json'
@@ -87,6 +88,7 @@ const sentimentScore = () => {
 // test user uploads using AI to decide whether they are positive or negative.
 
 const fetchSuggestion = async () => {
+  console.log(testScore >= 0.65);
   if (testScore >= 0.65){
     const suggestion = await axios
     .get('/positive')
@@ -138,6 +140,7 @@ useEffect(() => {
        Suggestion Bot
       </header>
       <main>
+        <Add setNewSuggestion={setNewSuggestion} />
       { suggestionData ? <Suggestion suggestionData={suggestionData} /> : '' }
       <Input setQuery={setQuery} />
       </main>
