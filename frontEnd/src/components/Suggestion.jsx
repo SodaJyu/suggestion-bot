@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Suggestion({ suggestionData, visible, setVisible }){
+export default function Suggestion({ suggestionData, suggestionVisible, setSuggestionVisible }){
     const suggestions = suggestionData.data.map(el => el.suggestion);
     const [suggestionState, setSuggestionState] = useState();
     const randomSuggestionGenerator = () => {
@@ -14,7 +14,7 @@ export default function Suggestion({ suggestionData, visible, setVisible }){
     }, []);
 
     const like = () => {
-        setVisible(false)
+        setSuggestionVisible(false)
     };
 
     const dislike = () => {
@@ -23,23 +23,26 @@ export default function Suggestion({ suggestionData, visible, setVisible }){
 
     return (
         <div 
-        className={`overflow-auto \
+        className={`
         z-30 \
-        h-5/6 \
-        w-10/12 \
+        h-2/6 \
+        w-2/6 \
         mx-auto \
-        top-20 \
-        p-6 \
+        p-20 \
+        content-center \
         border \
         rounded-xl \
-        bg-white \
-        text-left \
-        fixed \
-        ${visible === true ? 'visible' : 'invisible'}`}
+        bg-tahiti \
+        text-center \
+        fixed 
+        top-50 
+        right-0 
+        left-0   \
+        ${suggestionVisible === true ? 'visible' : 'invisible'}`}
             >
-            <p className='text-tahiti'>{suggestionState}</p>
-            <button className=' text-silver mr-5 h-10 w-10' onClick={like}>Like</button>
-            <button className=' text-silver h-10 w-10' onClick={dislike}>Dislike</button>
+            <p className='text-midnight text-center text-2xl mb-5' >{suggestionState}</p>
+            <button className=' bg-purple text-silver mr-5 h-10 w-10 hover:bg-bubble-gum border rounded-m' onClick={like}>Like</button>
+            <button className=' bg-purple text-silver h-10 w-20 hover:bg-bubble-gum border rounded-m' onClick={dislike}>Dislike</button>
         </div>
     );
 }

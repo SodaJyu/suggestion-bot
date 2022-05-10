@@ -9,10 +9,11 @@ export default function Input({ setQuery }){
         userInput.current.value = '';
       }
     return (
-        <div className='bg-metal mt-5 '>
+        <div className='bg-metal mt-40 '>
         <form>
-          <input type='text' name='statement' ref={userInput}></input>
-          <button className='bg-bermuda text-midnight p-0.8 w-fit mt-5 mb-5' onClick={updateInput}>Submit</button>
+          <h5 className='text-silver text-2xl'>What's up?</h5>
+          <input type='text' name='statement' className='border rounded-tl rounded-bl h-10' ref={userInput}></input>
+          <button className='bg-bermuda text-midnight h-10 p-0.8 w-fit mt-5 mb-5 border rounded-tr rounded-br hover:bg-bubble-gum' onClick={updateInput}>Submit</button>
         </form>
       </div>
     )

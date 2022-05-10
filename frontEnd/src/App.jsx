@@ -13,13 +13,13 @@ function App() {
 const [metadata, setMetadata] = useState();
 const [model, setModel] = useState();
 const [testScore, setScore] = useState("");
-const [trimmedText, setTrim] = useState("")
 const [modelLoaded, setModelLoaded] = useState(false)
 const [metadataLoaded, setMetadataLoaded] = useState(false)
 const [query, setQuery] = useState();
 const [suggestionData, setSuggestionData] = useState();
 const [newSuggestion, setNewSuggestion] = useState();
-const [visible, setVisible] = useState();
+const [suggestionVisible, setSuggestionVisible] = useState(false);
+const [addSuggestion, setAddSuggestion] = useState(false)
 const url = {
   model: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/model.json',
   metadata: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/metadata.json'
@@ -63,7 +63,6 @@ async function loadMetadata(url) {
 
 const getSentimentScore = async (text) => {
   const inputText = text.trim().toLowerCase().replace(/(\.|\,|\!)/g, '').split(' ');
-  setTrim(inputText)
   const sequence = inputText.map(word => {
     let wordIndex = metadata.word_index[word] + metadata.index_from;
     if (wordIndex > metadata.vocabulary_size) {
@@ -88,7 +87,6 @@ const sentimentScore = () => {
     }
 }
 
-// test user uploads using AI to decide whether they are positive or negative.
 
 const fetchSuggestion = async () => {
   console.log(mood)
@@ -99,7 +97,7 @@ const fetchSuggestion = async () => {
       console.log(error.response)
     });
     setSuggestionData(suggestion)
-    setVisible(true);
+    setSuggestionVisible(true);
   } else {
     const suggestion = await axios
     .get('/negative')
@@ -107,7 +105,7 @@ const fetchSuggestion = async () => {
       console.log(error.response)
     });
     setSuggestionData(suggestion)
-    setVisible(true)
+    setSuggestionVisible(true)
   } 
 };
 
@@ -125,6 +123,10 @@ const postData = async (data) => {
     console.log(error.response);
   })
   }
+};
+
+const userSuggestion = () => {
+  setAddSuggestion(!addSuggestion);
 };
 
 useEffect(() => {
@@ -145,13 +147,14 @@ useEffect(() => {
 
 
   return (
-    <div className="App">
-      <header className="App-header">
-       Suggestion Bot
+    <div className="App h-screen bg-metal">
+      <header className="bg-bubble-gum h-50 pt-10 flex space-x-200 justify-center">
+       <p className='text-4xl ml-40 mb-10 text-tahiti'>Suggestion Bot</p>
+       <button className='bg-metal text-silver ml-40 mb-10 border rounded-s hover:bg-tahiti justify-end' onClick={userSuggestion}>New Suggestion</button>
       </header>
-      <main>
-        <Add setNewSuggestion={setNewSuggestion} />
-      { suggestionData ? <Suggestion setVisible={setVisible} visible={visible} suggestionData={suggestionData} /> : '' }
+      <main className='bg-metal h-full'>
+      { addSuggestion ? <Add setNewSuggestion={setNewSuggestion} addSuggestion={addSuggestion} /> : ''}
+      { suggestionData ? <Suggestion setSuggestionVisible={setSuggestionVisible} suggestionVisible={suggestionVisible} suggestionData={suggestionData} /> : '' }
       <Input setQuery={setQuery} />
       </main>
     </div>
