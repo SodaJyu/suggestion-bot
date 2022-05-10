@@ -12,9 +12,9 @@ require("dotenv").config({
         password: process.env.DB_PASSWORD,
       },
       migrations: {
-        directory: './backend/db/migrations',
+        directory: __dirname + '/backend/db/migrations',
       },
-      seeds: { directory: './backend/db/seeds' },
+      seeds: { directory: __dirname + '/backend/db/seeds' },
     },
     production: {
       client: 'pg',
@@ -23,8 +23,8 @@ require("dotenv").config({
         rejectUnauthorised: false
       },
       migrations: {
-        directory: './backend/db/migrations',
+        directory: __dirname + '/backend/db/migrations',
       },
-      seeds: { directory: './backend/db/seeds' }
+      seeds: { directory: __dirname +'/backend/db/seeds' }
     },
   };
