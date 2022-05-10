@@ -8,7 +8,7 @@
     "start": "node ./backEnd/server.js",
     "migrate": "npx knex migrate:latest",
     "seed": "npx knex seed:run",
-    "build": "cd ./frontend && npm install && npm run build"
+    "build": "cd ./frontEnd && npm install && npm run build"
   },
   "repository": {
     "type": "git",
