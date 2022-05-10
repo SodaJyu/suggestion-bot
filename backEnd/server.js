@@ -10,11 +10,10 @@ const db = knex(config[environment]);
 
 
 app.use(express.json())
-// app.use(express.static(path.join(__dirname, "../frontend/build")));
-app.use(express.static("../frontEnd/build"));
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname,  "build", "index.html"));
-});
+app.use(express.static(path.join(__dirname, "../frontEnd/build")));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname,  "../frontEnd/build", "index.html"));
+// });
 
 app.get("/positive", async(req, res) => {
   await db.select('*')
