@@ -150,7 +150,7 @@ useEffect(() => {
     <div className="App h-screen bg-metal">
       <header className="bg-bubble-gum h-50 pt-10 flex space-x-200 justify-center">
        <p className='text-4xl ml-40 mb-10 text-tahiti'>Suggestion Bot</p>
-       <button className='bg-metal text-silver ml-40 mb-10 border rounded-s hover:bg-tahiti justify-end' onClick={userSuggestion}>New Suggestion</button>
+       <button className='bg-metal text-silver w-40 ml-40 mb-10 border rounded-m hover:bg-tahiti justify-end' onClick={userSuggestion}>New Suggestion</button>
       </header>
       <main className='bg-metal h-full'>
       { addSuggestion ? <Add setNewSuggestion={setNewSuggestion} addSuggestion={addSuggestion} /> : ''}

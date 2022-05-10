@@ -4,7 +4,8 @@ export default function Suggestion({ suggestionData, suggestionVisible, setSugge
     const suggestions = suggestionData.data.map(el => el.suggestion);
     const [suggestionState, setSuggestionState] = useState();
     const randomSuggestionGenerator = () => {
-        return setSuggestionState(suggestions[Math.floor(Math.random() * (suggestions.length - 0) + 0)]); 
+        let suggestion = setSuggestionState(suggestions[Math.floor(Math.random() * (suggestions.length - 0) + 0)]);
+        return  suggestion;
     };
 
     useEffect(() => {
@@ -41,7 +42,7 @@ export default function Suggestion({ suggestionData, suggestionVisible, setSugge
         ${suggestionVisible === true ? 'visible' : 'invisible'}`}
             >
             <p className='text-midnight text-center text-2xl mb-5' >{suggestionState}</p>
-            <button className=' bg-purple text-silver mr-5 h-10 w-10 hover:bg-bubble-gum border rounded-m' onClick={like}>Like</button>
+            <button className=' bg-purple text-silver mr-5 h-10 w-20 hover:bg-bubble-gum border rounded-m' onClick={like}>Like</button>
             <button className=' bg-purple text-silver h-10 w-20 hover:bg-bubble-gum border rounded-m' onClick={dislike}>Dislike</button>
         </div>
     );

@@ -17,4 +17,15 @@ require("dotenv").config({
       },
       seeds: { directory: './backend/db/seeds' },
     },
+    production: {
+      client: 'pg',
+      connection:  process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorised: false
+      },
+      migrations: {
+        directory: './db/migrations',
+      },
+      seeds: { directory: './db/seeds' }
+    },
   };

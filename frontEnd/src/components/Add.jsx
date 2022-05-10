@@ -28,7 +28,7 @@ export default function Add({ setNewSuggestion, addSuggestion }){
         ${addSuggestion === true ? 'visible' : 'invisible'}`}>
             <form>
                 <label className='mt-5 mr-5 text-silver text-2xl'> What's your suggestion?</label>
-                <input className='bg-white text-midnight h-10 border rounded-tl rounded-bl' type='text' placeholder='Suggestion here' ref={suggestionInput}></input>
+                <input className='bg-white text-midnight h-10 border rounded-tl rounded-bl text-center' type='text' placeholder='Suggestion here' ref={suggestionInput}></input>
                 <button className='bg-bermuda mt-5 mb-5  h-10 w-20 border rounded-tr rounded-br hover:bg-bubble-gum' onClick={updateSuggestion}>Add!</button>
             </form>
         </div>
