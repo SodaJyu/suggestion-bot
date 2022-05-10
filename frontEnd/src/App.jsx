@@ -88,7 +88,6 @@ const sentimentScore = () => {
 // test user uploads using AI to decide whether they are positive or negative.
 
 const fetchSuggestion = async () => {
-  console.log(testScore >= 0.65);
   if (testScore >= 0.65){
     const suggestion = await axios
     .get('/positive')
@@ -106,21 +105,27 @@ const fetchSuggestion = async () => {
   } 
 };
 
-const postData = async (suggestion) => {
-  if (getSentimentScore(suggestion) >= 0.65){
+const postData = async (data) => {
+  if (getSentimentScore(newSuggestion) >= 0.65){
     await axios
-    .post('/positive', suggestion)
+    .post('/positive', data)
     .catch((error) => {
       console.log(error.response);
     })
   } else {
     await axios
-  .post('/negative', suggestion)
+  .post('/negative', data)
   .catch((error) => {
     console.log(error.response);
   })
   }
 };
+
+useEffect(() => {
+  if (newSuggestion){
+    postData(newSuggestion);
+  }
+},[newSuggestion]);
 
 useEffect(() => {
   sentimentScore();
@@ -129,7 +134,6 @@ useEffect(() => {
 useEffect(() => {
   if (testScore){
     fetchSuggestion();
-    console.log(suggestionData);
   }
 }, [testScore]);
 

@@ -2,8 +2,12 @@ import React, { useRef } from 'react';
 
 export default function Add({ setNewSuggestion }){
     const suggestionInput = useRef();
-    const updateSuggestion = () => {
-        setNewSuggestion(suggestionInput.current.value);
+    const updateSuggestion = (e) => {
+        e.preventDefault();
+        setNewSuggestion({
+           suggestion: suggestionInput.current.value
+        });
+        suggestionInput.current.value = '';
     };
     return (
         <div className='add-suggestion'>

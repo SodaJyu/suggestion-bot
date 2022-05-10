@@ -32,7 +32,7 @@ app.get("/negative", async(req, res) => {
 app.post("/positive", async(req, res) => {
   await db.insert({
     popularity: 0,
-    suggestion: req.body.value
+    suggestion: req.body.suggestion
   })
   .into("positive_suggestions")
   .then(() => {
@@ -44,7 +44,7 @@ app.post("/positive", async(req, res) => {
 app.post("/negative", async(req, res) => {
   await db.insert({
     popularity: 0,
-    suggestion: req.body.value
+    suggestion: req.body.suggestion
   })
   .into("negative_suggestions")
   .then(() => {
