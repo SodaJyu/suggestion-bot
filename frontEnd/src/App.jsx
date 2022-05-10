@@ -9,7 +9,6 @@ import Add from './components/Add';
 
 function App() {
 
-
 const [metadata, setMetadata] = useState();
 const [model, setModel] = useState();
 const [testScore, setScore] = useState("");
@@ -74,7 +73,6 @@ const getSentimentScore = async (text) => {
   const input = tf.tensor2d(paddedSequence, [1, metadata.max_len]);
   const predictOut = model.predict(input);
   const score = predictOut.dataSync()[0];
-  console.log(score);
   predictOut.dispose();
   setScore(score)  
  
@@ -89,7 +87,6 @@ const sentimentScore = () => {
 
 
 const fetchSuggestion = async () => {
-  console.log(mood)
   if (mood === "positive"){
     const suggestion = await axios
     .get('/positive')

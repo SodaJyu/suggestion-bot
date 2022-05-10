@@ -11,9 +11,6 @@ const db = knex(config[environment]);
 
 app.use(express.json())
 app.use(express.static(path.join(__dirname, "../frontEnd/build")));
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname,  "../frontEnd/build", "index.html"));
-// });
 
 app.get("/positive", async(req, res) => {
   await db.select('*')
@@ -56,9 +53,6 @@ app.post("/negative", async(req, res) => {
   })
   .catch((error) => console.log(error))
 });
-
-
-
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
