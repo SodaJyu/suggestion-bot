@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-export default function suggestion(){
+export default function Suggestion({ suggestionData }){
+    const suggestions = suggestionData.data.map(el => el.suggestion);
+    const randomNumberGenerator = () => {
+        return Math.floor(Math.random() * (suggestions.length - 0) + 0)
+    }
+    const suggestion = suggestions[randomNumberGenerator()];
     return (
         <div className='suggestion'>
-            <p>This is a suggestion</p>
+            <p>{suggestion}</p>
         </div>
     );
 }

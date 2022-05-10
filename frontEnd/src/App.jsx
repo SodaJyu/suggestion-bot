@@ -16,7 +16,7 @@ const [trimmedText, setTrim] = useState("")
 const [modelLoaded, setModelLoaded] = useState(false)
 const [metadataLoaded, setMetadataLoaded] = useState(false)
 const [query, setQuery] = useState();
-const [suggestions, setSuggestions] = useState();
+const [suggestionData, setSuggestionData] = useState();
 const userInput = useRef();
 const url = {
   model: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/model.json',
@@ -93,14 +93,14 @@ const fetchSuggestion = async () => {
     .catch((error) => {
       console.log(error.response)
     });
-    setSuggestions(suggestion)
+    setSuggestionData(suggestion)
   } else {
     const suggestion = await axios
     .get('/negative')
     .catch((error) => {
       console.log(error.response)
     });
-    setSuggestions(suggestion)
+    setSuggestionData(suggestion)
   } 
 };
 
@@ -120,16 +120,16 @@ const postData = async (suggestion) => {
   }
 };
 
-
-// function updateInput(e){
-//   e.preventDefault()
-//   console.log(userInput.value)
-//   setQuery(userInput.value)
-// }
 useEffect(() => {
   sentimentScore();
-  fetchSuggestion();
 }, [query]);
+
+useEffect(() => {
+  if (testScore){
+    fetchSuggestion();
+    console.log(suggestionData);
+  }
+}, [testScore]);
 
 
   return (
@@ -138,7 +138,7 @@ useEffect(() => {
        Suggestion Bot
       </header>
       <main>
-      {/* {suggestions ? <Suggestion /> : '' } */}
+      { suggestionData ? <Suggestion suggestionData={suggestionData} /> : '' }
       <Input setQuery={setQuery} />
       </main>
     </div>
