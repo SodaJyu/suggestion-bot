@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import * as tf from '@tensorflow/tfjs';
 import padSequences from './helper/padSequences';
@@ -19,10 +19,13 @@ const [metadataLoaded, setMetadataLoaded] = useState(false)
 const [query, setQuery] = useState();
 const [suggestionData, setSuggestionData] = useState();
 const [newSuggestion, setNewSuggestion] = useState();
+const [visible, setVisible] = useState();
 const url = {
   model: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/model.json',
   metadata: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_lstm_v1/metadata.json'
 };
+
+const mood = testScore >= 0.65 ? "positive" : "negative"
 
 const OOV_INDEX = 2;
 
@@ -88,13 +91,15 @@ const sentimentScore = () => {
 // test user uploads using AI to decide whether they are positive or negative.
 
 const fetchSuggestion = async () => {
-  if (testScore >= 0.65){
+  console.log(mood)
+  if (mood === "positive"){
     const suggestion = await axios
     .get('/positive')
     .catch((error) => {
       console.log(error.response)
     });
     setSuggestionData(suggestion)
+    setVisible(true);
   } else {
     const suggestion = await axios
     .get('/negative')
@@ -102,6 +107,7 @@ const fetchSuggestion = async () => {
       console.log(error.response)
     });
     setSuggestionData(suggestion)
+    setVisible(true)
   } 
 };
 
@@ -132,7 +138,7 @@ useEffect(() => {
 }, [query]);
 
 useEffect(() => {
-  if (testScore){
+  if (testScore && query){
     fetchSuggestion();
   }
 }, [testScore]);
@@ -145,7 +151,7 @@ useEffect(() => {
       </header>
       <main>
         <Add setNewSuggestion={setNewSuggestion} />
-      { suggestionData ? <Suggestion suggestionData={suggestionData} /> : '' }
+      { suggestionData ? <Suggestion setVisible={setVisible} visible={visible} suggestionData={suggestionData} /> : '' }
       <Input setQuery={setQuery} />
       </main>
     </div>

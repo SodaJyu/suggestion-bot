@@ -10,11 +10,11 @@ export default function Add({ setNewSuggestion }){
         suggestionInput.current.value = '';
     };
     return (
-        <div className='add-suggestion'>
+        <div className='bg-metal mt-5'>
             <form>
-                <label className='suggestion-label'> What's your suggestion?</label>
-                <input type='text' placeholder='Suggestion here' ref={suggestionInput}></input>
-                <button onClick={updateSuggestion}>Add!</button>
+                <label className='mt-5 mr-5 text-silver'> What's your suggestion?</label>
+                <input className='bg-white text-midnight h-10' type='text' placeholder='Suggestion here' ref={suggestionInput}></input>
+                <button className='bg-bermuda mt-5 mb-5  h-10 w-20' onClick={updateSuggestion}>Add!</button>
             </form>
         </div>
     )
